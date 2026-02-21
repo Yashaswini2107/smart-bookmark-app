@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Bookmark App
 
-## Getting Started
+A simple bookmark manager built using **Next.js (App Router)**, **Supabase**, and **Tailwind CSS**.
 
-First, run the development server:
+Users can sign in using Google OAuth and manage personal bookmarks with real-time updates.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Live Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Live URL: https://your-vercel-url.vercel.app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 14** (App Router)
+- **Supabase**
+  - Authentication (Google OAuth)
+  - PostgreSQL Database
+  - Realtime subscriptions
+- **Tailwind CSS**
+- **Vercel** (Deployment)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+##  Features
 
-## Deploy on Vercel
+- Google OAuth login (no email/password)
+- Add bookmarks (title + URL)
+- Bookmarks are private per user
+- Real-time updates across tabs
+- Delete bookmarks
+- Dark mode support
+- Deployed on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##  Database Schema
+
+Table: `bookmarks`
+
+| Column   | Type   |
+|----------|--------|
+| id       | uuid   |
+| title    | text   |
+| url      | text   |
+| user_id  | uuid   |
+
+---
+
+##  Row Level Security (RLS)
+
+RLS is enabled to ensure users can only access their own bookmarks.
+
+Policies:
+
+```sql
+ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users see own bookmarks"
+ON bookmarks FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Users insert own bookmarks"
+ON bookmarks FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users delete own bookmarks"
+ON bookmarks FOR DELETE
+USING (auth.uid() = user_id);
