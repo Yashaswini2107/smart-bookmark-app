@@ -32,10 +32,10 @@ export default function Dashboard() {
 
   /* ================= DARK MODE ================= */
 
-  useEffect(() => {
+ /* useEffect(() => {
     if (dark) document.documentElement.classList.add("dark");
     else document.documentElement.classList.remove("dark");
-  }, [dark]);
+  }, [dark]);*/
 
   /* ================= AUTH ================= */
 
@@ -141,12 +141,12 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
 
           {/* DARK MODE */}
-          <button
+         {/* <button
             onClick={() => setDark(!dark)}
             className="px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700"
           >
             {dark ? "☀️" : "🌙"}
-          </button>
+          </button>*/}
 
           {/* USER AVATAR */}
           {user?.user_metadata?.avatar_url && (

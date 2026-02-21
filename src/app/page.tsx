@@ -141,7 +141,7 @@ export default function Home() {
 
       {/* ================= FOOTER ================= */}
       <footer className="text-center py-10 text-gray-500">
-        Built with ❤️ using Next.js + Supabase
+        Built with using Next.js + Supabase
       </footer>
 
     </div>
